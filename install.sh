@@ -2,11 +2,11 @@
 
 # بررسی وجود رمز عبور به عنوان پارامتر ورودی
 DB_PASSWORD=$1
+
 if [ -z "$DB_PASSWORD" ]; then
   echo "Error: No password provided. Usage: ./install.sh <db_password>"
   exit 1
 fi
-
 
 # به‌روزرسانی و ارتقاء سیستم
 sudo apt update -y
@@ -24,17 +24,27 @@ sudo apt install php-{cli,fpm,mysql,zip,gd,mbstring,curl,xml,bcmath,common,soap,
 sudo apt install php7.4-{cli,fpm,mysql,zip,gd,mbstring,curl,xml,bcmath,common,soap,xml,xmlrpc} -y
 
 # نصب MariaDB و Redis
-sudo apt install -y mariadb-server redis-server composer
+sudo apt install -y mariadb-server redis-server
 
 # تنظیم رمز عبور برای کاربر root در MariaDB
 sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
-# امن‌سازی نصب MariaDB
-sudo mysql_secure_installation --use-default
+# امن‌سازی MariaDB
+sudo mysql -e "DELETE FROM mysql.user WHERE User='';"
+sudo mysql -e "DROP DATABASE IF EXISTS test;"
+sudo mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
+sudo mysql -e "FLUSH PRIVILEGES;"
 
-# ایجاد شورتکات برای phpMyAdmin
+# نصب phpMyAdmin و ایجاد شورتکات
+sudo apt install -y phpmyadmin
 sudo ln -s /usr/share/phpmyadmin /var/www/html/pma
+
+# نصب Composer
+sudo apt install -y composer
+
+# نصب Certbot و افزونه Nginx
+sudo apt install -y certbot python3-certbot-nginx
 
 # پیام تکمیل
 echo "Installation and configuration complete."
