@@ -36,17 +36,27 @@ sudo mysql -e "DROP DATABASE IF EXISTS test;"
 sudo mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
+# تنظیمات debconf برای phpMyAdmin (بدون تعامل)
+echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | sudo debconf-set-selections
+echo "phpmyadmin phpmyadmin/app-password-confirm password ${DB_PASSWORD}" | sudo debconf-set-selections
+echo "phpmyadmin phpmyadmin/mysql/admin-pass password ${DB_PASSWORD}" | sudo debconf-set-selections
+echo "phpmyadmin phpmyadmin/mysql/app-pass password ${DB_PASSWORD}" | sudo debconf-set-selections
+echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect nginx" | sudo debconf-set-selections
+
+# نصب phpMyAdmin بدون درخواست پیکربندی دستی
+sudo DEBIAN_FRONTEND=noninteractive apt install -y phpmyadmin
+
+# ایجاد شورتکات phpMyAdmin
+sudo ln -s /usr/share/phpmyadmin /var/www/html/pma
+
 # نصب Composer
 sudo apt install -y composer
 
 # نصب Certbot و افزونه Nginx
 sudo apt install -y certbot python3-certbot-nginx
 
-
-# نصب phpMyAdmin و ایجاد شورتکات
-sudo apt install -y phpmyadmin
-sudo ln -s /usr/share/phpmyadmin /var/www/html/pma
-
+# تغییر DNS سرورها
+echo -e "nameserver 8.8.8.8\nnameserver 1.1.1.1" | sudo tee /etc/resolv.conf > /dev/null
 
 # پیام تکمیل
 echo "Installation and configuration complete."
