@@ -36,15 +36,17 @@ sudo mysql -e "DROP DATABASE IF EXISTS test;"
 sudo mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
-# نصب phpMyAdmin و ایجاد شورتکات
-sudo apt install -y phpmyadmin
-sudo ln -s /usr/share/phpmyadmin /var/www/html/pma
-
 # نصب Composer
 sudo apt install -y composer
 
 # نصب Certbot و افزونه Nginx
 sudo apt install -y certbot python3-certbot-nginx
+
+
+# نصب phpMyAdmin و ایجاد شورتکات
+sudo apt install -y phpmyadmin
+sudo ln -s /usr/share/phpmyadmin /var/www/html/pma
+
 
 # پیام تکمیل
 echo "Installation and configuration complete."
