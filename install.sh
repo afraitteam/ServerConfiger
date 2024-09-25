@@ -2,11 +2,11 @@
 
 # بررسی وجود رمز عبور به عنوان پارامتر ورودی
 DB_PASSWORD=$1
-
 if [ -z "$DB_PASSWORD" ]; then
   echo "Error: No password provided. Usage: ./install.sh <db_password>"
   exit 1
 fi
+
 
 # به‌روزرسانی و ارتقاء سیستم
 sudo apt update -y
