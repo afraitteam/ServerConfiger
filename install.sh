@@ -75,7 +75,14 @@ else
     echo "phpMyAdmin directory not found."
 fi
 
-
+# تنظیم فایل config.inc.php
+CONFIG_FILE="/etc/phpmyadmin/config.inc.php"
+if [ -f "$CONFIG_FILE" ]; then
+    sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['password'\] = '\).*\(';.*\)/\1${DB_PASSWORD}\2/" $CONFIG_FILE
+    echo "Password updated in config.inc.php."
+else
+    echo "config.inc.php not found."
+fi
 
 # نصب Certbot و افزونه Nginx
 sudo apt install -y certbot python3-certbot-nginx
