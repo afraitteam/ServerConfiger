@@ -55,12 +55,6 @@ sudo apt install -y composer
 # فعال کردن نصب پلاگین‌ها به عنوان روت
 export COMPOSER_ALLOW_SUPERUSER=1
 
-# نصب پکیج‌ها بدون تعامل
-echo "Installing Composer packages..."
-composer require code-lts/u2f-php-server --no-interaction
-composer require bacon/bacon-qr-code --no-interaction
-composer require pragmarx/google2fa-qrcode --no-interaction
-
 # تنظیمات phpMyAdmin
 if [ -d "/usr/share/phpmyadmin" ]; then
     cd /usr/share/phpmyadmin
