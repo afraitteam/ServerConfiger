@@ -52,6 +52,37 @@ sudo ln -s /usr/share/phpmyadmin /var/www/html/pma
 # نصب Composer
 sudo apt install -y composer
 
+# فعال کردن نصب پلاگین‌ها به عنوان روت
+export COMPOSER_ALLOW_SUPERUSER=1
+
+# نصب پکیج‌ها بدون تعامل
+echo "Installing Composer packages..."
+composer require code-lts/u2f-php-server --no-interaction
+composer require bacon/bacon-qr-code --no-interaction
+composer require pragmarx/google2fa-qrcode --no-interaction
+
+# تنظیمات phpMyAdmin
+if [ -d "/usr/share/phpmyadmin" ]; then
+    cd /usr/share/phpmyadmin
+    echo "Installing packages in phpMyAdmin directory..."
+    
+    composer require code-lts/u2f-php-server --no-interaction
+    composer require bacon/bacon-qr-code --no-interaction
+    composer require pragmarx/google2fa-qrcode --no-interaction
+
+    # اضافه کردن 'require_once' به خط ۱۱ فایل index.php
+    if grep -q "require_once 'vendor/autoload.php';" index.php; then
+        echo "'require_once' already exists in index.php."
+    else
+        sed -i '11i\require_once '\''vendor/autoload.php'\'';' index.php
+        echo "'require_once' added to index.php."
+    fi
+else
+    echo "phpMyAdmin directory not found."
+fi
+
+
+
 # نصب Certbot و افزونه Nginx
 sudo apt install -y certbot python3-certbot-nginx
 
