@@ -28,7 +28,7 @@ sudo apt install -y mariadb-server redis-server
 
 # تنظیم رمز عبور برای کاربر root در MariaDB
 sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';"
-sudo mysql -e "FLUSH PRIVILEGES;"
+sudo mysql -uroot -p'${DB_PASSWORD}' -e "FLUSH PRIVILEGES;"
 
 # امن‌سازی MariaDB
 sudo mysql -e "DELETE FROM mysql.user WHERE User='';"
