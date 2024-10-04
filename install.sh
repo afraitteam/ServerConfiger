@@ -31,10 +31,10 @@ sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';"
 sudo mysql -uroot -p'${DB_PASSWORD}' -e "FLUSH PRIVILEGES;"
 
 # امن‌سازی MariaDB
-sudo mysql -e "DELETE FROM mysql.user WHERE User='';"
-sudo mysql -e "DROP DATABASE IF EXISTS test;"
-sudo mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
-sudo mysql -e "FLUSH PRIVILEGES;"
+sudo mysql -uroot -p'${DB_PASSWORD}' -e "DELETE FROM mysql.user WHERE User='';"
+sudo mysql -uroot -p'${DB_PASSWORD}' -e "DROP DATABASE IF EXISTS test;"
+sudo mysql -uroot -p'${DB_PASSWORD}' -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
+sudo mysql -uroot -p'${DB_PASSWORD}' -e "FLUSH PRIVILEGES;"
 
 # تنظیمات debconf برای phpMyAdmin (بدون تعامل)
 echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | sudo debconf-set-selections
